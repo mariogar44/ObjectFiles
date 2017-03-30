@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package binaryfiles;
 
-import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +27,7 @@ public class OFworks {
         int repeat = 0;
 
         do {
-            User user = new User();
+            User user = new User();//Creates a new user for saving it in a file
 
             try (MiObjectOutputStream oos = new MiObjectOutputStream(new FileOutputStream("C:\\program\\Users.ser", true))) {
                 oos.writeObject(user);
@@ -42,7 +36,7 @@ public class OFworks {
             } catch (IOException ex) {
                 Logger.getLogger(OFworks.class.getName()).log(Level.SEVERE, null, ex);
             }
-            do {
+            do { //A menu to go back or repeat the operation
                 System.out.println("1- Save another user");
                 System.out.println("2- Go back");
                 repeat = Read.Int();
@@ -52,7 +46,7 @@ public class OFworks {
         } while (repeat == 1);
     }
 
-    public static void writeFlight() {
+    public static void writeFlight() {//Same method as writeUser()
         int repeat = 0;
 
         do {
@@ -78,7 +72,7 @@ public class OFworks {
     public static void readUser() {
 
         try (MiObjectInputStream ois = new MiObjectInputStream(new FileInputStream("C:\\program\\Users.ser"))) {
-            while (true) {
+            while (true) {//Reads users from file and shows their members
                 User user = (User) ois.readObject();
 
                 System.out.println("DNI number: " + user.getDni());
@@ -98,7 +92,7 @@ public class OFworks {
         }
     }
 
-    public static void readFlight() {
+    public static void readFlight() {//same as readUser()
 
         try (MiObjectInputStream ois = new MiObjectInputStream(new FileInputStream("C:\\program\\Flights.ser"))) {
             while (true) {
@@ -125,10 +119,10 @@ public class OFworks {
         String s;
         int ask = -1;
         boolean aurkitua = false;
-        while (ask == -1) {
+        while (ask == -1) { //It asks for the DNI to delete
             System.out.println("Enter the DNI you want to search for: ");
             s = Read.String();
-            if (s.length() == 8) {
+            if (s.length() == 8) {//Checks if the typed DNI has 8 characters
                 try {
                     ask = Integer.parseInt(s);
                 } catch (NumberFormatException ex) {
@@ -142,10 +136,10 @@ public class OFworks {
 
         try (MiObjectInputStream ois = new MiObjectInputStream(new FileInputStream("C:\\program\\Users.ser"))) {
 
-            while (!aurkitua) {
+            while (!aurkitua) {//Reads users until finds the one we want to show
 
                 User user = (User) ois.readObject();
-                if (user.getDni() == ask) {
+                if (user.getDni() == ask) {//If it is the user to be shown enters here
 
                     System.out.println("DNI number: " + user.getDni());
                     System.out.println("Name: " + user.getName() + " | Surname: " + user.getSurname() + " | Birthdate: " + user.getBirth());
@@ -170,7 +164,7 @@ public class OFworks {
 
     }
 
-    public static void searchFlight() {
+    public static void searchFlight() {//same as searchUser()
         String s;
         boolean aurkitua = false;
         int ask = -1;
@@ -222,7 +216,7 @@ public class OFworks {
 
     public static void deleteUser() {
         boolean aurkitua = false, exist = true;
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();//Arraylist for saving the users
 
         int ask = -1;
         while (ask == -1) {//Asks for the DNI
@@ -241,9 +235,9 @@ public class OFworks {
         }
         try (MiObjectInputStream ois = new MiObjectInputStream(new FileInputStream("C:\\program\\Users.ser"))) {
 
-            while (true) { //Reads users from file and saves them in users arraylist
+            while (true) { //Reads users from file and saves them in "users" arraylist
                 User usr = (User) ois.readObject();
-                if (usr.getDni() != ask) {
+                if (usr.getDni() != ask) {//If it is not the user to be deleted saves it in the arraylist
                     users.add(usr);
                 } else {
                     System.out.println("User found, deleting...");
@@ -264,11 +258,11 @@ public class OFworks {
             Logger.getLogger(OFworks.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (exist) {
+        if (exist) {//If the file exist
 
             try (MiObjectOutputStream oos = new MiObjectOutputStream(new FileOutputStream("C:\\program\\Users.ser"))) {
 
-                for (int i = 0; i < users.size(); i++) {
+                for (int i = 0; i < users.size(); i++) {//Writes all the users
 
                     oos.writeObject(users.get(i));
 
@@ -283,7 +277,7 @@ public class OFworks {
         }
     }
 
-    public static void deleteFlight() {
+    public static void deleteFlight() {//sames as deleteUser()
         boolean aurkitua = false, exist = true;
         ArrayList<Flight> flights = new ArrayList<>();
 
@@ -346,7 +340,7 @@ public class OFworks {
         }
     }
 
-    public static void backup() {
+    public static void backup() {//This backups both two files
         int i;
         System.out.println("");
         System.out.println("This is going to delete previous backup, do you want to continue?: ");
@@ -355,12 +349,13 @@ public class OFworks {
         i = Read.Int();
         if (i == 1) {
             System.out.println("************");
-            Path uPath = Paths.get("C:\\program\\Users.ser");
-            Path uBPath = Paths.get("C:\\backup\\Users.ser");
-            Path fPath = Paths.get("C:\\program\\Flights.ser");
-            Path fBPath = Paths.get("C:\\backup\\Flights.ser");
+            //These path objects save all the paths for both backup and normal files
+            Path uPath = Paths.get("C:\\program\\Users.ser");//Users path
+            Path uBPath = Paths.get("C:\\backup\\Users.ser");//Users backup path
+            Path fPath = Paths.get("C:\\program\\Flights.ser");//Flights path
+            Path fBPath = Paths.get("C:\\backup\\Flights.ser");//Flights backup path
             try {
-                Files.copy(uPath, uBPath, REPLACE_EXISTING);
+                Files.copy(uPath, uBPath, REPLACE_EXISTING);//Copies the file from uPath to uBPath and replaces if it exists in uBPath
                 System.out.println("Users successfully backuped to: " + uBPath);
             } catch (IOException ex) {
                 System.out.println("Error with the backup of users");
@@ -375,7 +370,7 @@ public class OFworks {
         }
     }
 
-    public static void restore() {
+    public static void restore() {//It's more or lesslike backup, changing path orders
         int i;
         System.out.println("");
         System.out.println("This is going to delete current data, do you want to continue?: ");

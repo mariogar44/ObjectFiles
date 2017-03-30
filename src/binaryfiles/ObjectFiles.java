@@ -1,15 +1,8 @@
 
 package binaryfiles;
 
-/**
- *
- * @author DM3-1-20
- */
 public class ObjectFiles {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
 
         int chooser = 0, i;
@@ -32,7 +25,7 @@ public class ObjectFiles {
             System.out.println("*********************************");
             chooser = Read.Int();
             switch (chooser) {
-                case 1:
+                case 1: //Work with flights
                     do {
 
                         repeat = true;
@@ -79,7 +72,7 @@ public class ObjectFiles {
                     } while (repeat == true);
                     break;
 
-                case 2:
+                case 2://Work with flights
                     do {
                         repeat = true;
 

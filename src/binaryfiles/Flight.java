@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package binaryfiles;
 
 import java.io.BufferedReader;
@@ -12,10 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-/**
- *
- * @author DM3-1-20
- */
 public class Flight implements Serializable {
 
     //Members
